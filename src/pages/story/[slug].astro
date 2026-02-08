@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import { fetchStoryBySlug, fetchStories } from "../../lib/notion";
 import type { PageObjectResponse,RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
 
+export const prerender = false;
 
 function getRichText(prop: PageObjectResponse["properties"][string]) {
   if (!prop) return "";

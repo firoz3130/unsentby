@@ -4,6 +4,7 @@ import StoryCard from "../components/StoryCard.astro";
 import { fetchStories } from "../lib/notion";
 
 const stories = await fetchStories();
+export const prerender = false;
 ---
 
 <Layout title="Unsent Stories">
