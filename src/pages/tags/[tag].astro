@@ -2,9 +2,25 @@
 import Layout from "../../layouts/Layout.astro";
 import { fetchStories } from "../../lib/notion";
 
+export async function getStaticPaths() {
+  const stories = await fetchStories();
+
+  const tags = new Set<string>();
+
+  stories.forEach((story: any) => {
+    story.tags?.forEach((tag: string) => tags.add(tag));
+  });
+
+  return Array.from(tags).map((tag) => ({
+    params: { tag },
+  }));
+}
+
 const { tag } = Astro.params;
-const stories = (await fetchStories()).filter(s =>
-  s.tags.includes(tag)
+const stories = await fetchStories();
+
+const filtered = stories.filter((s: any) =>
+  s.tags?.includes(tag)
 );
 ---
 
@@ -12,7 +28,7 @@ const stories = (await fetchStories()).filter(s =>
   <h1>#{tag}</h1>
 
   <ul>
-    {stories.map(story => (
+    {filtered.map((story: any) => (
       <li>
         <a href={`/story/${story.slug}`}>{story.title}</a>
       </li>
