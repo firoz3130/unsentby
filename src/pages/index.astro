@@ -1,11 +1,41 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import StoryCard from "../components/StoryCard.astro";
+import { fetchStories } from "../lib/notion";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const stories = await fetchStories();
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Unsent Stories">
+  <section class="hero">
+    <h1>Unsent Stories</h1>
+    <p>Things I never sent. Things I never said.</p>
+  </section>
+
+  <section class="grid">
+    {stories.map((story) => (
+      <StoryCard story={story} />
+    ))}
+  </section>
 </Layout>
+
+<style>
+.hero {
+  max-width: 700px;
+  margin: 4rem auto 2rem;
+}
+.hero h1 {
+  font-size: 3rem;
+  line-height: 1.1;
+}
+.hero p {
+  opacity: 0.7;
+}
+.grid {
+  max-width: 900px;
+  margin: 2rem auto 6rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+</style>

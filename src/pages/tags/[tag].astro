@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { fetchStories } from "../../lib/notion";
+
+const { tag } = Astro.params;
+const stories = (await fetchStories()).filter(s =>
+  s.tags.includes(tag)
+);
+---
+
+<Layout title={`#${tag}`}>
+  <h1>#{tag}</h1>
+
+  <ul>
+    {stories.map(story => (
+      <li>
+        <a href={`/story/${story.slug}`}>{story.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>

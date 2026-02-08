@@ -1,0 +1,121 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { fetchStoryBySlug, fetchStories } from "../../lib/notion";
+import type { PageObjectResponse,RichTextItemResponse } from "@notionhq/client/build/src/api-endpoints";
+
+
+function getRichText(prop: PageObjectResponse["properties"][string]) {
+  if (!prop) return "";
+  if (prop.type === "rich_text") {
+    return prop.rich_text.map(t => t.plain_text).join("");
+  }
+  if (prop.type === "title") {
+    return prop.title.map(t => t.plain_text).join("");
+  }
+  return "";
+}
+
+function getSelect(prop: PageObjectResponse["properties"][string]) {
+  if (prop?.type === "select") {
+    return prop.select?.name || "";
+  }
+  return "";
+}
+
+function getMultiSelect(prop: PageObjectResponse["properties"][string]) {
+  if (prop?.type === "multi_select") {
+    return prop.multi_select.map(t => t.name);
+  }
+  return [];
+}
+
+function getDate(prop: PageObjectResponse["properties"][string]) {
+  if (prop?.type === "date") {
+    return prop.date?.start || "";
+  }
+  return "";
+}
+
+export async function getStaticPaths() {
+  const stories = await fetchStories();
+
+  return stories.map((story: any) => ({
+    params: { slug: story.slug },
+  }));
+}
+const slug  = Astro.params.slug;
+if (!slug) {
+  throw new Error("Slug is required");
+}
+const page = await fetchStoryBySlug(slug);
+
+if (!page) throw new Error("Story not found");
+
+function isFullPage(page: any): page is PageObjectResponse {
+  return page && "properties" in page;
+}
+
+if (!isFullPage(page)) {
+  throw new Error("Story not found or invalid");
+}
+
+const props = page.properties;
+
+const titleProp:any =
+  props.title?.type === "rich_text" && props.title.rich_text.length ? props.title : null;
+
+const story = {
+  title: getRichText(titleProp) || "Untitled",
+  content: getRichText(props.content),
+  mood: getSelect(props.mood),
+  tags: getMultiSelect(props.tags),
+  date: getDate(props.date),
+};
+---
+
+<Layout title={story.title}>
+  <article class="story">
+    <h1>{story.title}</h1>
+
+    <div class="meta">
+      <span>{story.date}</span>
+      <span class="mood">{story.mood}</span>
+    </div>
+
+    <div class="content">
+      {story.content.split("\n").map((p: unknown) => <p>{p}</p>)}
+    </div>
+
+    <div class="tags">
+      {story.tags.map((tag: unknown) => (
+        <a href={`/tags/${tag}`}>#{tag}</a>
+      ))}
+    </div>
+  </article>
+</Layout>
+
+<style>
+.story {
+  max-width: 700px;
+  margin: 4rem auto 6rem;
+}
+.story h1 {
+  font-size: 2.4rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+.meta {
+  opacity: 0.6;
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.content p {
+  margin-bottom: 1rem;
+  line-height: 1.7;
+}
+.tags a {
+  margin-right: .5rem;
+  opacity: .7;
+}
+</style>

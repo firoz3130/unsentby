@@ -1,0 +1,51 @@
+---
+const { story } = Astro.props;
+---
+
+<a href={`/story/${story.slug}`} class="card">
+  <h2>{story.title}</h2>
+
+  <p class="excerpt">{story.content?.slice(0, 120)}...</p>
+
+  <div class="meta">
+    <span class="mood">{story.mood}</span>
+    <span class="date">{story.date}</span>
+  </div>
+</a>
+
+<style>
+.card {
+  display: block;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: transform .2s ease, border .2s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.card h2 {
+  font-size: 1.1rem;
+  margin-bottom: .5rem;
+}
+.excerpt {
+  opacity: 0.75;
+  font-size: 0.9rem;
+}
+.meta {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+.mood {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+}
+</style>
