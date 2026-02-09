@@ -22,21 +22,44 @@ export const prerender = false;
 
 <style>
 .hero {
-  max-width: 700px;
-  margin: 4rem auto 2rem;
+  max-width: 800px;
+  margin: 5rem auto 3rem;
+  text-align: center;
+  padding: 0 2rem;
 }
+
 .hero h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   line-height: 1.1;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #fbbf24, #f87171, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
-.hero p {
-  opacity: 0.7;
+
+.subtitle {
+  opacity: 0.8;
+  font-size: 1.25rem;
+  font-weight: 300;
+  font-style: italic;
 }
+
 .grid {
-  max-width: 900px;
-  margin: 2rem auto 6rem;
+  max-width: 1000px;
+  margin: 3rem auto 6rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
