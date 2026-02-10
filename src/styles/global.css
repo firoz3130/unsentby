@@ -41,3 +41,49 @@ a {
 a:hover {
   color: var(--accent);
 }
+
+.placeholder-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal-card {
+  background: #0f0f0f;
+  border: 1px solid #222;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 380px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal-card p {
+  color: #ddd;
+  margin-bottom: 12px;
+}
+
+.modal-card input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.modal-card button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  color: black;
+  cursor: pointer;
+}

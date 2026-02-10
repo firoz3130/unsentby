@@ -20,6 +20,12 @@ export async function fetchStories() {
       },
     ],
   });
+res.results.forEach((page: any, i: number) => {
+  console.log(`\n--- STORY ${i + 1} ---`);
+  // console.log("Page properties: ", page.properties);
+  console.log("placeholders: ", page.properties.placeHolders);
+  console.log("promptText: ", page.properties.promptText);
+});
 
   return res.results.map((page: any) => {
     const props = page.properties;
@@ -31,6 +37,9 @@ export async function fetchStories() {
       mood: props.mood?.select?.name ?? "",
       tags: props.tags?.multi_select?.map((t: any) => t.name) ?? [],
       date: props.date?.date?.start ?? "",
+      hasPlaceHolders: props.hasPlaceHolders?.checkbox ?? false,
+      placeholders: props.placeHolders?.multi_select?.map((p: any) => p.name) ?? [],
+      promptText: props.promptText?.rich_text?.[0]?.plain_text ?? "",
     };
   });
 }
