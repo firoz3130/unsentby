@@ -41,13 +41,13 @@ export default function StoryPlaceholder({
     }
 
     const disclaimerMatch = text.match(/Disclaimer:\s*(.*)/i);
-    
+
     if (disclaimerMatch) {
       const mainText = text.replace(/Disclaimer:.*$/i, "").trim();
       const disclaimer = disclaimerMatch[1].trim();
       return { mainText: mainText || "Personalize this story 💫", disclaimer };
     }
-    
+
     return { mainText: text, disclaimer: null };
   }
 
@@ -93,7 +93,7 @@ export default function StoryPlaceholder({
               onClick={() => setShowPrompt(false)}
               className="modal-button"
             >
-              Read Story ✨
+              Read The Story ✨
             </button>
           </div>
         </div>
