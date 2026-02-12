@@ -93,7 +93,7 @@ export default function StoryPlaceholder({
               onClick={() => setShowPrompt(false)}
               className="modal-button"
             >
-              Read The Story ✨
+              Read Story ✨
             </button>
           </div>
         </div>
