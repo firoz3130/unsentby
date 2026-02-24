@@ -34,7 +34,7 @@ export default function StoryPlaceholder({
     return result;
   }
 
-  // Split prompt text into main and disclaimer
+  // prompt text into main and disclaimer
   function splitPromptText(text: string) {
     if (!text) {
       return { mainText: "Personalize this story 💫", disclaimer: null };
